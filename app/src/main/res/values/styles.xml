@@ -4,7 +4,7 @@
         <item name="colorPrimary">@color/alizarin</item>
         <item name="colorPrimaryDark">@color/alizarin</item>
         <item name="colorAccent">@color/freeSpeechRed</item>
-        <item name="android:background">@color/whiteSmoke</item>
+        <item name="android:colorBackground">@color/whiteSmoke1</item>
     </style>
 
 </resources>
