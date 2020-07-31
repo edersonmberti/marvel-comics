@@ -9,6 +9,6 @@
     <com.example.marvel.components.Header
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:text="Favorites" />
+        app:text="@string/favorites" />
 
 </FrameLayout>
