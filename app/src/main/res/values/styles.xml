@@ -1,9 +1,9 @@
 <resources>
 
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
-        <item name="colorPrimary">@color/alizarin</item>
-        <item name="colorPrimaryDark">@color/alizarin</item>
-        <item name="colorAccent">@color/freeSpeechRed</item>
+        <item name="colorPrimary">@color/freeSpeechRed</item>
+        <item name="colorPrimaryDark">@color/freeSpeechRed</item>
+        <item name="colorAccent">@color/alizarin</item>
         <item name="android:colorBackground">@color/whiteSmoke1</item>
     </style>
 
