@@ -1,10 +1,10 @@
 package com.example.marvel
 
 import android.os.Bundle
+import android.view.Menu
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.example.marvel.characters.CharactersFragment
-import com.example.marvel.extensions.resetIcons
 import com.example.marvel.favorites.FavoritesFragment
 import com.example.marvel.search.SearchFragment
 import kotlinx.android.synthetic.main.activity_main.*
@@ -21,7 +21,7 @@ class MainActivity : AppCompatActivity() {
 
         bnvCharacters.setOnNavigationItemSelectedListener { menuItem ->
 
-            bnvCharacters.resetIcons()
+            resetBottomNavigationIcons()
 
             val fragment: Fragment = when (menuItem.itemId) {
                 R.id.page_characters -> {
@@ -51,5 +51,13 @@ class MainActivity : AppCompatActivity() {
             replace(R.id.flFragmentContainer, fragment)
             commit()
         }
+    }
+
+    private fun resetBottomNavigationIcons() {
+        val menu: Menu = bnvCharacters.menu
+
+        menu.findItem(R.id.page_characters).setIcon(R.drawable.ic_person);
+        menu.findItem(R.id.page_favorites).setIcon(R.drawable.ic_favorite);
+        menu.findItem(R.id.page_search).setIcon(R.drawable.ic_search);
     }
 }
