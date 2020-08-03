@@ -6,4 +6,62 @@
     android:layout_height="match_parent"
     tools:context=".characters.CharacterActivity">
 
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/nsvCharacter"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:context=".characters.CharactersFragment">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <ImageView
+                android:id="@+id/ivCharacter"
+                android:layout_width="match_parent"
+                android:layout_height="260dp"
+                android:scaleType="centerCrop"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:ignore="ContentDescription" />
+
+            <TextView
+                android:id="@+id/tvTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/margin_outside"
+                android:layout_marginTop="@dimen/margin_outside"
+                android:text="@string/description"
+                android:textColor="@color/matterhorn1"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/ivCharacter" />
+
+            <TextView
+                android:id="@+id/tvDescription"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/margin_outside"
+                android:layout_marginTop="@dimen/margin_outside"
+                android:layout_marginEnd="@dimen/margin_outside"
+                android:textColor="@color/matterhorn2"
+                android:textSize="14sp"
+                app:layout_constraintTop_toBottomOf="@id/tvTitle" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.core.widget.NestedScrollView>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fabFavoriteCharacter"
+        android:layout_width="@dimen/fab_button_width"
+        android:layout_height="@dimen/fab_button_height"
+        android:layout_marginEnd="@dimen/margin_fab_end"
+        android:layout_marginBottom="@dimen/margin_fab_bottom"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        tools:src="@drawable/ic_favorite" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

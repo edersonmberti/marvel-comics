@@ -7,10 +7,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.example.marvel.R
-import com.example.marvel.characters.adpter.CharactersAdapter
+import com.example.marvel.characters.adapter.CharactersAdapter
 import com.example.marvel.extensions.showToast
-import com.example.marvel.model.CharactersDataContainer
-import com.example.marvel.model.CharactersResponse
+import com.example.marvel.model.CharactersData
+import com.example.marvel.model.CharactersDataWrapper
 import com.example.marvel.services.RetrofitClient
 import com.example.marvel.util.EndlessScrollView
 import com.example.marvel.util.GridSpacingItemDecoration
@@ -19,9 +19,9 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-private const val TS = "thesoer"
-private const val API_KEY = "013f3cbc470985603d11f1b0c58a816b"
-private const val HASH = "8ecb9d1ae1393b6fd4178945a3fcc1ee"
+const val TS = "thesoer"
+const val API_KEY = "013f3cbc470985603d11f1b0c58a816b"
+const val HASH = "8ecb9d1ae1393b6fd4178945a3fcc1ee"
 private const val INITIAL_OFFSET = 0
 
 class CharactersFragment : Fragment() {
@@ -75,12 +75,12 @@ class CharactersFragment : Fragment() {
         RetrofitClient
             .getCharacterService()
             .getAll(
-                TS, API_KEY, HASH, page
+                TS, HASH, API_KEY, page
             )
-            .enqueue(object : Callback<CharactersResponse> {
+            .enqueue(object : Callback<CharactersDataWrapper> {
                 override fun onResponse(
-                    call: Call<CharactersResponse>?,
-                    response: Response<CharactersResponse>?
+                    call: Call<CharactersDataWrapper>?,
+                    response: Response<CharactersDataWrapper>?
                 ) {
                     response?.takeIf { it.isSuccessful }?.run {
                         body()?.run {
@@ -90,7 +90,7 @@ class CharactersFragment : Fragment() {
                     } ?: activity?.showToast()
                 }
 
-                override fun onFailure(call: Call<CharactersResponse>?, t: Throwable?) {
+                override fun onFailure(call: Call<CharactersDataWrapper>?, t: Throwable?) {
                     activity?.showToast()
                 }
             })
@@ -102,7 +102,7 @@ class CharactersFragment : Fragment() {
         })
     }
 
-    private fun checkNextPage(data: CharactersDataContainer) {
+    private fun checkNextPage(data: CharactersData) {
         hasNextPage = data.run {
             val totalPages = total / limit
 
