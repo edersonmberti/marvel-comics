@@ -27,7 +27,7 @@ class CharactersAdapter(
 
     override fun onBindViewHolder(holder: CharacterViewHolder, position: Int) {
         characters[position].run {
-            holder.populate(id = id, imageUrl = image, name = name)
+            holder.populate(id = id, image = image, name = name)
         }
     }
 

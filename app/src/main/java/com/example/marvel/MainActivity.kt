@@ -60,4 +60,5 @@ class MainActivity : AppCompatActivity() {
         menu.findItem(R.id.page_favorites).setIcon(R.drawable.ic_favorite);
         menu.findItem(R.id.page_search).setIcon(R.drawable.ic_search);
     }
+
 }

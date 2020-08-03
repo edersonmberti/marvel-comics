@@ -1,8 +1,15 @@
 <resources>
+
     <string name="app_name">Marvel</string>
 
     <string name="characters">Characters</string>
     <string name="favorites">Favorites</string>
     <string name="search">Search</string>
     <string name="character_image">Character image</string>
+
+    <!-- API requests -->
+    <string name="loading">Loading…</string>
+    <string name="no_more_characters_available">No more characters available.</string>
+    <string name="something_went_wrong">Something went wrong.</string>
+
 </resources>

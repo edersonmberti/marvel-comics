@@ -3,8 +3,11 @@
 
     <dimen name="toolbar_elevation">4dp</dimen>
 
-    <dimen name="character_card_height">87dp</dimen>
-    <dimen name="character_card_width">156dp</dimen>
+    <dimen name="margin_outside">20dp</dimen>
+    <dimen name="margin_inside">16dp</dimen>
+
+    <dimen name="character_card_height">100dp</dimen>
+    <dimen name="character_card_width">175dp</dimen>
     <dimen name="character_card_radius">5dp</dimen>
 
 </resources>
