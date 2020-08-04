@@ -6,25 +6,21 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import com.example.marvel.R
 import com.example.marvel.characters.adapter.CharactersAdapter
 import com.example.marvel.extensions.showToast
-import com.example.marvel.model.CharactersData
-import com.example.marvel.model.CharactersDataWrapper
 import com.example.marvel.services.RetrofitClient
 import com.example.marvel.util.EndlessScrollView
 import com.example.marvel.util.GridSpacingItemDecoration
 import kotlinx.android.synthetic.main.fragment_characters.*
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
-
-private const val INITIAL_OFFSET = 0
 
 class CharactersFragment : Fragment() {
 
+    private lateinit var charactersViewModel: CharactersViewModel
     private lateinit var charactersAdapter: CharactersAdapter
-    private var hasNextPage: Boolean = true
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -33,8 +29,36 @@ class CharactersFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        charactersViewModel = ViewModelProvider(
+            this,
+            CharacterViewModelFactory(RetrofitClient.getCharacterService())
+        ).get(CharactersViewModel::class.java)
+
         setUI()
-        getCharacters()
+        initiateObservers()
+
+        if (savedInstanceState == null) {
+            charactersViewModel.loadCharacters()
+        }
+    }
+
+    private fun initiateObservers() {
+        charactersViewModel.run {
+            observeToShowToast(showMessageHasReachedEnd, R.string.no_more_characters_available)
+            observeToShowToast(showMessageLoading, R.string.loading)
+            observeToShowToast(showMessageError, R.string.something_went_wrong)
+
+            characters.observe(viewLifecycleOwner, Observer { listCharacters ->
+                charactersAdapter.addItems(listCharacters.toMutableList())
+            })
+        }
+    }
+
+    private fun observeToShowToast(liveData: LiveData<Boolean>, messageId: Int) {
+        liveData.observe(viewLifecycleOwner, Observer { shouldShow ->
+            if (shouldShow) activity?.showToast(messageId)
+        })
     }
 
     private fun setUI() {
@@ -57,52 +81,15 @@ class CharactersFragment : Fragment() {
 
         nsvCharacters.setOnScrollChangeListener(object : EndlessScrollView() {
             override fun onLoadMore(page: Int) {
-                getCharacters(page)
+                charactersViewModel.loadCharacters()
             }
         })
-    }
-
-    private fun getCharacters(page: Int = INITIAL_OFFSET) {
-        if (hasNextPage.not()) {
-            activity?.showToast(R.string.no_more_characters_available)
-            return
-        }
-
-        activity?.showToast(messageId = R.string.loading)
-        RetrofitClient
-            .getCharacterService()
-            .getAll(page)
-            .enqueue(object : Callback<CharactersDataWrapper> {
-                override fun onResponse(
-                    call: Call<CharactersDataWrapper>?,
-                    response: Response<CharactersDataWrapper>?
-                ) {
-                    response?.takeIf { it.isSuccessful }?.run {
-                        body()?.run {
-                            checkNextPage(this.data)
-                            charactersAdapter.addItems(this.data.characters)
-                        }
-                    } ?: activity?.showToast()
-                }
-
-                override fun onFailure(call: Call<CharactersDataWrapper>?, t: Throwable?) {
-                    activity?.showToast()
-                }
-            })
     }
 
     private fun onClick(id: Int) {
         startActivity(Intent(requireContext(), CharacterActivity::class.java).apply {
             putExtra(CHARACTER_ID, id)
         })
-    }
-
-    private fun checkNextPage(data: CharactersData) {
-        hasNextPage = data.run {
-            val totalPages = total / limit
-
-             totalPages > offset + 1
-        }
     }
 
 }
