@@ -19,9 +19,6 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-const val TS = "thesoer"
-const val API_KEY = "013f3cbc470985603d11f1b0c58a816b"
-const val HASH = "8ecb9d1ae1393b6fd4178945a3fcc1ee"
 private const val INITIAL_OFFSET = 0
 
 class CharactersFragment : Fragment() {
@@ -74,9 +71,7 @@ class CharactersFragment : Fragment() {
         activity?.showToast(messageId = R.string.loading)
         RetrofitClient
             .getCharacterService()
-            .getAll(
-                TS, HASH, API_KEY, page
-            )
+            .getAll(page)
             .enqueue(object : Callback<CharactersDataWrapper> {
                 override fun onResponse(
                     call: Call<CharactersDataWrapper>?,
